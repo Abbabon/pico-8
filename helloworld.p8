@@ -20,9 +20,9 @@ function make_player()
 	psprite=1
 end
 
-[[ remember coordinates go from right to left and up down ]]
+-- remember coordinates go from right to left and up down ]]
 function move_player()
-	if (btn(0)) px-=1 --left 
+	if (btn(0)) px-=1 --left
 	if (btn(1)) px+=1 --right
 	if (btn(2)) py-=1 --up
 	if (btn(3)) py+=1 --down
@@ -104,4 +104,3 @@ __music__
 00 01424344
 00 41424344
 00 02424344
-
