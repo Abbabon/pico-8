@@ -29,11 +29,19 @@ In this exposed peak of the internet I will document my [pico-8](https://www.lex
 
 ### Moonlander
 
-[] change stars sometimes
+[X] animation for explosion + particles
+  [] 'generic' animation system 
 
-[] fuel
+[] 'generic' particles system in pico-8
+
+[] make stars twinkle (change color) and don't change them between tries
+
+[] fuel system
+  [] fuel pickups
 
 [] wind?
+  [] wind system
+  [] wind indicator
 
 [] flying obstacles
 
@@ -43,6 +51,8 @@ In this exposed peak of the internet I will document my [pico-8](https://www.lex
 
 [] replay + scoring
 
-[] plot? landing supplies for a planet?
+[] menu
 
-[] particles
+[] difficuly choosing on start
+
+[] plot? landing supplies for a planet?
