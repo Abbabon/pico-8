@@ -7,6 +7,8 @@ In this exposed peak of the internet I will document my [pico-8](https://www.lex
 
 * [zines (which I'll follow) and other media for beginners](https://www.lexaloffle.com/pico-8.php?page=resources#community)
 
+* [awesome pico-8](https://github.com/pico-8/awesome-PICO-8)
+
 ## How to setup your development environment
 
 * Change the pico-8 default [configuration](https://pico-8.fandom.com/wiki/Configuration)
@@ -30,9 +32,11 @@ In this exposed peak of the internet I will document my [pico-8](https://www.lex
 ### Moonlander
 
 [X] animation for explosion + particles
-  [] 'generic' animation system 
+  [X] 'generic' animation system
+  [X] add generic 'timing' system to control animation framerate
 
 [] 'generic' particles system in pico-8
+  [] add in location, remove / reset, activate, deactivate
 
 [] make stars twinkle (change color) and don't change them between tries
 
@@ -45,14 +49,16 @@ In this exposed peak of the internet I will document my [pico-8](https://www.lex
 
 [] flying obstacles
 
-[] animation for landing pad
-
 [] screen shake on explode
+
+[] fade in / out
 
 [] replay + scoring
 
 [] menu
 
-[] difficuly choosing on start
+[] difficulty choosing on start (no conditions -> fuel -> wind -> obstacles)
 
-[] plot? landing supplies for a planet?
+[] plot? landing supplies for a planet? what is the theme
+
+[] original lander spritesheet
