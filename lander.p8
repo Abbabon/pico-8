@@ -6,6 +6,7 @@ __lua__
 
 function _init()
  g=0.025 --gravity
+ crash_velocity=1
  animation_framerate=30
  create_animations()
  init_particle_system()
@@ -13,12 +14,12 @@ function _init()
 end
 
 function _update()
+ update_particle_system()
  if (not game_over) then
   move_player()
   check_land()
  else
   if (btnp(5)) game_setup()
-  update_particles()
  end
 end
 
@@ -40,15 +41,14 @@ function _draw()
 end
 
 function game_setup()
+ reset_particle_system()
  game_over=false
  win=false
  make_player()
  make_ground()
- reset_particle_system()
 end
 
 function make_player()
- crash_velocity=1
  p={}
  p.x = 60
  p.y = 8
@@ -163,9 +163,10 @@ function check_land()
  end
 end
 
-function end_game (won)
+function end_game(won)
  game_over=true
  win=won
+ add_particle_effect(p)
  if (game_over and won) then
   sfx(1) --we won
  elseif (game_over) then
@@ -174,73 +175,89 @@ function end_game (won)
 end
 
 -->8
+-- particle system -> particles_effect -> particle
+
 function init_particle_system()
- particles_gravity=0.1 --particle gravity
- max_vel=3 --max initial particle velocity
- min_time=2 --min/max time between particles
- max_time=5
- min_life=90 --particle lifetime
- max_life=120
- particles_t=0 --particles ticker
- cols={1,1,1,13,13,12,12,7} --colors
- burst=50
- next_p=rndb(min_time,max_time)
+ particle_settings={}
+ particle_settings.g=0.1 --particle gravity
+ particle_settings.max_vel=3 --max initial particle velocity
+ particle_settings.min_time=2 --min/max time between particles
+ particle_settings.max_time=5
+ particle_settings.min_life=90 --particle lifetime
+ particle_settings.max_life=120
+ particle_settings.cols={1,1,1,13,13,12,12,7} --colors
+ particle_settings.burst=50
 end
 
 function reset_particle_system()
- should_draw_particles = false
  ps={} --empty particle table
+ --TODO: go over all particles and kill?
 end
 
-function update_particles()
- if should_draw_particles then
-  particles_t+=1
-  if (particles_t==next_p) then
-   add_particle(64,64)
-   next_p=rndb(min_time,max_time)
-   particles_t=0
-  end
+--TODO make gravity optional
+--TODO add burst option
+--TODO add timed
+--TODO add colors
+--TODO add positionoffset
+function add_particle_effect(gameobject)
+ local newparticleffect={}
+ newparticleffect.next_p=rndb(particle_settings.min_time,particle_settings.max_time)
+ newparticleffect.t=0
+ newparticleffect.gameobject=gameobject
+ newparticleffect.particles={}
+ add(ps,newparticleffect)
+end
 
-  --particles burst
-  if (btnp(🅾️)) then
-   for i=1,burst do add_particle(64,64) end
-  end
+function update_particle_system()
+ foreach(ps,update_particle_effect)
+end
 
-  foreach(ps,update_p)
+function update_particle_effect(e)
+ e.t+=1
+ if (e.t==e.next_p) then
+  add_particle(e)
+  e.next_p=rndb(particle_settings.min_time,particle_settings.max_time)
+  e.t=0
  end
+ foreach(e.particles,update_particle)
 end
 
-function draw_particles()
- if should_draw_particles then
-  foreach(ps,draw_particle)
- end
-end
-
-function add_particle(x,y)
+function add_particle(e)
  local p={}
- p.x,p.y=x,y
- p.dx=rnd(max_vel)-max_vel/2
- p.dy=rnd(max_vel)*-1
- p.life_start=rndb(min_life,max_life)
+ p.e=e
+ p.x,p.y=e.gameobject.x,e.gameobject.y
+ p.dx=rnd(particle_settings.max_vel)-particle_settings.max_vel/2
+ p.dy=rnd(particle_settings.max_vel)*-1
+ p.life_start=rndb(particle_settings.min_life,particle_settings.max_life)
  p.life=p.life_start
- add(ps,p)
+ add(e.particles,p)
 end
 
-function update_p(p)
+function update_particle(p)
  if (p.life<=0) then
-  del(ps,p) --kill old particles
+  del(p.e.particles,p) --kill old particles
  else
-  p.dy+=particles_gravity --add gravity
- if ((p.y+p.dy)>127) p.dy*=-0.8
+  p.dy+=particle_settings.g --add gravity
+  if ((p.y+p.dy)>127) then
+   p.dy*=-0.8
+  end
   p.x+=p.dx --update position
   p.y+=p.dy
   p.life-=1 --die a little
  end
 end
 
+function draw_particles()
+ foreach(ps,draw_particle_effect)
+end
+
+function draw_particle_effect(e)
+ foreach(e.particles,draw_particle)
+end
+
 function draw_particle(p)
- local pcol=flr(p.life/p.life_start*#cols+1)
- pset(p.x+player.x,p.y+player.y,cols[pcol])
+ local pcol=flr(p.life/p.life_start*#particle_settings.cols+1)
+ pset(p.x,p.y,particle_settings.cols[pcol])
 end
 
 -->8
