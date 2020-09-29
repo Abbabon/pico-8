@@ -35,8 +35,13 @@ In this exposed peak of the internet I will document my [pico-8](https://www.lex
   [X] 'generic' animation system
   [X] add generic 'timing' system to control animation framerate
 
-[] 'generic' particles system in pico-8
-  [] add in location, remove / reset, activate, deactivate
+[X] 'generic' particles system in pico-8
+  [X] add in location, remove / reset, activate, deactivate
+  [] add burst variant
+    [] add burst direction?
+  [] add offset
+
+[] engine fire
 
 [] make stars twinkle (change color) and don't change them between tries
 
