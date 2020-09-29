@@ -166,7 +166,7 @@ end
 function end_game(won)
  game_over=true
  win=won
- add_particle_effect(p)
+ add_particle_effect(p, true)
  if (game_over and won) then
   sfx(1) --we won
  elseif (game_over) then
@@ -199,12 +199,21 @@ end
 --TODO add timed
 --TODO add colors
 --TODO add positionoffset
-function add_particle_effect(gameobject)
+function add_particle_effect(gameobject, burst)
  local newparticleffect={}
- newparticleffect.next_p=rndb(particle_settings.min_time,particle_settings.max_time)
- newparticleffect.t=0
+ newparticleffect.burst=burst
  newparticleffect.gameobject=gameobject
  newparticleffect.particles={}
+
+ if (burst) then
+  for i=1,particle_settings.burst do
+    add_particle(newparticleffect)
+  end
+ else
+  newparticleffect.next_p=rndb(particle_settings.min_time,particle_settings.max_time)
+  newparticleffect.t=0
+ end
+
  add(ps,newparticleffect)
 end
 
@@ -213,13 +222,22 @@ function update_particle_system()
 end
 
 function update_particle_effect(e)
- e.t+=1
- if (e.t==e.next_p) then
-  add_particle(e)
-  e.next_p=rndb(particle_settings.min_time,particle_settings.max_time)
-  e.t=0
+ if e.burst then
+  --body...
+ else
+  e.t+=1
+  if (e.t==e.next_p) then
+   add_particle(e)
+   e.next_p=rndb(particle_settings.min_time,particle_settings.max_time)
+   e.t=0
+  end
  end
+
  foreach(e.particles,update_particle)
+
+ if (#e.particles == 0) then
+  del(ps,e) --kill old particles
+ end
 end
 
 function add_particle(e)
@@ -248,6 +266,7 @@ function update_particle(p)
 end
 
 function draw_particles()
+ print(#ps)
  foreach(ps,draw_particle_effect)
 end
 
