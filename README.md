@@ -29,6 +29,16 @@ In this exposed peak of the internet I will document my [pico-8](https://www.lex
 
 [] how to auto-center a line of text? (according to the number of chars in that text)
 
+### Conway's Game of Life (thingy)
+
+Quite on a whim I've decided to implement Conway's Game of Life in Pico. Is it nice-looking? Is it really a game? Can it BE a game? maybe. This is a framework to build from, anyway.
+
+WIP title - colourful life ?
+
+[] Make a version with overlapping circfill instead of squares
+
+[] Make a 280-characters version as a tweetcart
+
 ### Moonlander
 
 [X] animation for explosion + particles
