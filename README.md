@@ -15,11 +15,19 @@ In this exposed peak of the internet I will document my [pico-8](https://www.lex
 
 * just work with ATOM. [here is a nice guide](https://www.lexaloffle.com/bbs/?tid=3440), [and the atom extension](https://atom.io/packages/language-pico8)
 
+* An interesting way to setup your [multi-tool development environment](https://www.youtube.com/watch?v=srPKBhzgZhc)
+
+* How to setup [Sublime](https://www.lexaloffle.com/bbs/?tid=3721) - I did get rid of the font
+
 ## Useful tools found along the way
 
 * [picotool](https://pico-8.fandom.com/wiki/Picotool)
 
-## Reminders
+## Useful Commands
+
+* `info` brings out the true number of tokens including, well, includes
+
+## Reminders (on session-start)
 
 * Sprite's "0" pixel transform is at their top-left since pico 8 coordinates is going from top to bottom and left to right. their 'right' side is that pixel + 7 + (8 * sprite width - 1). same for top and bottom.
 
@@ -28,6 +36,14 @@ In this exposed peak of the internet I will document my [pico-8](https://www.lex
 [] base helper-methods file (for example - rndb)
 
 [] how to auto-center a line of text? (according to the number of chars in that text)
+
+## Projects
+
+### 8oni8 (title pending)
+
+[] get something moving across the 'allowed' frame
+
+p
 
 ### Conway's Game of Life (thingy)
 
