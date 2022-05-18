@@ -43,7 +43,9 @@ In this exposed peak of the internet I will document my [pico-8](https://www.lex
 
 [] get something moving across the 'allowed' frame
 
-p
+0 - free
+1 - closed
+2 - active
 
 ### Conway's Game of Life (thingy)
 
