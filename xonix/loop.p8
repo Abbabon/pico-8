@@ -12,6 +12,7 @@ function _draw()
  cls()
  draw_board()
  draw_stats()
+ draw_ui()
 end
 
 function draw_stats()

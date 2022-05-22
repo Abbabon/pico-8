@@ -1,6 +1,8 @@
 player = {}
 board = {}
 path = {}
+enemies = {}
+number_of_tiles = 3844 -- 62 * 62
 
 -- empty - 0, fill - 1; overlays - player - 2, enemy - 3, path - 4
 
@@ -17,8 +19,34 @@ function init_board()
     end
   end
 
-  player.x = 1
+  player.x = 32
   player.y = 1
+  player.dx = 0
+  player.dy = 0
+  player.lives = 3
+  player.percentage = 0.0
+
+  init_enemies()
+
+end
+
+function init_enemies()
+
+ enemies_amount = 3
+
+ for enemycount = 1, enemies_amount do
+
+  enemy = {
+   x = flr(rnd(59)) + 3,
+   y = flr(rnd(59)) + 3,
+   dx = flr(rnd(1) - 1), --take sign
+   dy = flr(rnd(1) - 1), --take sign
+  }
+
+  add(enemies, enemy)
+
+ end
+
 
 end
 
@@ -26,6 +54,10 @@ function update_board()
  update_player_position()
  update_enemy_position()
  collisions()
+end
+
+function draw_ui()
+  print("lives: "..player.lives.." percentage: "..flr(player.percentage),0,123,7)
 end
 
 last_frame_safe = true
@@ -68,7 +100,7 @@ function update_player_position()
    fill_end_point = {x=prev.x, y=prev.y}
    if (prev.x != player.x) fill(true)
    if (prev.y != player.y) fill(false)
-   
+
    clear_path(false)
   end
 
@@ -79,6 +111,58 @@ function update_player_position()
   end
 
 end
+
+function update_enemy_position()
+ for enemy in all(enemies) do
+   dx = enemy.dx > 0 and 1 or -1
+   dy = enemy.dy > 0 and 1 or -1
+
+   if (board[enemy.y][enemy.x + dx] == 0) do
+    enemy.dx *= -1
+    dx *= -1
+   end
+
+   if (board[enemy.y + dy][enemy.x] == 0) do
+    enemy.dy *= -1
+    dy *= -1
+   end
+
+   enemy.x += dx
+   enemy.y += dy 
+
+ end
+end
+
+function collisions()
+ 
+ for enemy in all(enemies) do
+  if (enemy.x == player.x and enemy.y == player.y) then
+   trigger_loss()
+   break
+  end
+
+  for path_tile in all(path) do
+   if (enemy.x == path_tile.x and enemy.y == path_tile.y) then
+    trigger_loss()
+   break
+   end  
+  end
+
+
+ end
+
+end
+
+function trigger_loss()
+ player.lives -= 1
+ player.x = 32
+ player.y = 1 
+
+ clear_path(true)
+
+ log("lost!")
+end
+
 
 function fill(horizontal)
  
@@ -114,6 +198,20 @@ function fill(horizontal)
 
 
   -- reset_fill()
+
+  -- calculate percentage
+  
+  empty_tiles = 0
+  for row=3,62 do
+   for column=3,62 do
+    if (board[column][row] == 0) then
+     empty_tiles += 1
+    end
+   end
+  end
+
+  player.percentage = (empty_tiles/number_of_tiles)*100
+
 end
 
 function reset_fill()
@@ -162,12 +260,6 @@ function move_player(x_diff, y_diff)
   
 end
 
-function update_enemy_position()
-end
-
-function collisions()
-end
-
 
 function draw_board()
 
@@ -195,10 +287,19 @@ function draw_board()
  -- player
  draw_tile(player.x,player.y,9)
 
+ -- enemies
+ for enemy in all(enemies) do
+  circfill(enemy.x*2-2,enemy.y*2-2,1, 14)
+ end
+
 end
 
 function draw_tile(x,y,color)
 
  rectfill((x*2-2), (y*2-2), (x*2-1), (y*2-1), color)
 
+end
+
+function log(string)
+ printh(string,"logs/default",overwrite)
 end

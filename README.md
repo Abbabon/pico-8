@@ -27,6 +27,13 @@ In this exposed peak of the internet I will document my [pico-8](https://www.lex
 
 * `info` brings out the true number of tokens including, well, includes
 
+## Useful Code Snippits
+
+`random -1 or 1: flr(rnd(1) - 1)`
+
+`how to concat strings: print("lives: "..player.lives.." percentage: ", 1,2,3)`
+
+
 ## Reminders (on session-start)
 
 * Sprite's "0" pixel transform is at their top-left since pico 8 coordinates is going from top to bottom and left to right. their 'right' side is that pixel + 7 + (8 * sprite width - 1). same for top and bottom.
@@ -41,11 +48,16 @@ In this exposed peak of the internet I will document my [pico-8](https://www.lex
 
 ### 8oni8 (title pending)
 
-[] get something moving across the 'allowed' frame
+[] continue movement momentum (even when safe?)
+[] disallow going back 
 
-0 - free
-1 - closed
-2 - active
+[] closed area enemies
+[] open area enemies
+
+[X] enemies move
+[] score system
+
+[] start, stop for few secs when hit, 
 
 ### Conway's Game of Life (thingy)
 
